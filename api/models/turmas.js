@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Turmas',
+    paranoid:true,//delete suave, para não apagar o dados do banco, mas não mostrar esse dado para o usuario
   });
   return Turmas;
 };
