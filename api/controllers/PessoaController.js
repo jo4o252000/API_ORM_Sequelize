@@ -1,7 +1,8 @@
 // const database = require ('../models')
 // const Sequelize = require('sequelize')
-const {PessoasServices} = require('../services')
+const {PessoasServices, MatriculasServices} = require('../services')
 const pessoasServices = new PessoasServices()
+const matriculasServices = new MatriculasServices()
 
 class PessoaController{
     static async getAllPessoasAtivas(req, res){
@@ -97,7 +98,8 @@ class PessoaController{
         const { estudanteId, matriculaId } = req.params
         const atualizaMatricula= req.body
         try{
-            await database.Matriculas.update(atualizaMatricula, {where: {id: Number(matriculaId), estudante_id: Number(estudanteId)} })
+            await matriculasServices.atualziaMatriculaDeEstudante(atualizaMatricula, Number(estudanteId), Number(matriculaId))
+            //await database.Matriculas.update(atualizaMatricula, {where: {id: Number(matriculaId), estudante_id: Number(estudanteId)} })
             return res.status(200).json({menssage: 'sucesso'})
         }catch (error){
             return res.status(500).json(error.menssage)
@@ -107,7 +109,7 @@ class PessoaController{
     static async deleteMatricula(req, res){
         const { estudanteId, matriculaId } = req.params
         try{
-            const deleteMatricula = await database.Matriculas.destroy({where: {id: Number(matriculaId)} })
+            const deleteMatricula = await matriculasServices.apagaRegistro(matriculaId)
             return res.status(200).json({menssage: 'deletado com sucesso'})
         }catch (error){
             return res.status(500).json(error.menssage)
